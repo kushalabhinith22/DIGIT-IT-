@@ -1,10 +1,5 @@
 DIGIT-IT
-Overview
+EdTech Learning Task Manager
 
-The EdTech Learning Task Manager is a full-stack application designed for managing student learning tasks with strict role-based access.
-
-The system supports:
-
-Students → Manage only their own tasks
-
-Teachers → View tasks from assigned students + manage tasks they created
+A Role-Based Learning Task Manager for Students & Teachers
+Tech Stack: React, Node.js, Express, MongoDB
