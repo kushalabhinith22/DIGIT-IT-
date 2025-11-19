@@ -1,212 +1,204 @@
-# 🎓 DIGIT - IT Task Manager – Full Stack Assignment
-
-A complete student-teacher task management system built using **Node.js**, **Express**, **MongoDB Atlas**, and **React (Vite)**.  
-This project implements authentication, student–teacher relationships, role-based permissions, and task management UI.
-
----
-
-# 📚 Table of Contents
-- [Project Overview](#project-overview)  
-- [Features](#features)  
-- [Tech Stack](#tech-stack)  
-- [Folder Structure](#folder-structure)  
-- [Setup Instructions](#setup-instructions)  
-- [Role Functionality & Permissions](#role-functionality--permissions)  
-- [Video Demo Checklist](#video-demo-checklist)  
-- [Known Issues](#known-issues)  
-- [Suggestions for Improvement](#suggestions-for-improvement)  
-- [AI Assistance Disclosure](#ai-assistance-disclosure)
+# 📘 EdTech Learning Task Manager  
+### A Role-Based Task Management System for Students & Teachers  
+**Tech Stack:** React, Node.js, Express, MongoDB  
 
 ---
 
-# 📘 Project Overview
-The EdTech Task Manager is a platform where:
+## 🚀 Overview  
+The **EdTech Learning Task Manager** is a full-stack web application that enables seamless task management between **students** and **teachers** using **secure role-based access control**.
 
-- **Teachers** can monitor students assigned to them and view all tasks created by those students.  
-- **Students** can create and manage their own tasks.  
-- The system ensures **proper role-based access**, secure authentication, and clear separation of responsibilities.
+It supports:
 
-This is a compact, functional full-stack project designed per the provided assignment requirements.
-
----
-
-# ✨ Features
-
-### 👨‍🏫 Teacher Features
-- Signup/login with role = teacher  
-- Teacher ID is shown upon login  
-- Can view:  
-  - Own tasks  
-  - Tasks created by assigned students  
-- Cannot edit/delete student tasks (read-only)
-
-### 🧑‍🎓 Student Features
-- Signup/login using a valid **teacher ID**  
-- Can create, update, and delete **only their tasks**  
-- Cannot view teacher tasks  
-- Cannot view tasks of other students
-
-### 🔐 Authentication
-- JWT-based login  
-- Token persisted in local storage  
-- Protected routes on both server & client
-
-### 🗂 Task Management
-- Title, description, status  
-- CRUD operations  
-- Filter tasks by status
+- **Students** → Can manage only their own tasks  
+- **Teachers** → Can view tasks of assigned students and modify only tasks they personally created  
 
 ---
 
-# 🛠 Tech Stack
+## 🧩 Features  
 
-### **Frontend**
-- React (Vite)
-- Axios
-- React Router
+### 🔐 Authentication & Authorization  
+- Email + Password Signup/Login  
+- Password hashing using **bcrypt**  
+- JWT-based authentication with protected routes  
+- User roles stored as **student** or **teacher**
 
-### **Backend**
+---
+
+## 👩‍🏫 Role-Based Permissions  
+
+| Role     | Permissions |
+|----------|-------------|
+| **Student** | CRUD operations on their own tasks only |
+| **Teacher** | View tasks of assigned students + CRUD only on tasks created by the teacher |
+
+---
+
+## 🗃 Database Schema (MongoDB + Mongoose)
+
+### **Users Collection**
+| Field        | Type      | Description |
+|--------------|-----------|-------------|
+| email        | String    | Unique email |
+| passwordHash | String    | Hashed password |
+| role         | String    | student / teacher |
+| teacherId    | ObjectId  | Required for students |
+
+### **Tasks Collection**
+| Field       | Type      | Description |
+|-------------|-----------|-------------|
+| title       | String    | Task title |
+| description | String    | Task details |
+| dueDate     | Date      | Optional |
+| progress    | String    | not-started / in-progress / completed |
+| userId      | ObjectId  | Creator of the task |
+| createdAt   | Date      | Timestamp |
+
+---
+
+## 🛠 Backend API (Node + Express)
+
+### **Auth Routes**
+| Method | Endpoint       | Description           |
+|--------|----------------|-----------------------|
+| POST   | /auth/signup   | Register a new user   |
+| POST   | /auth/login    | Login user & return JWT |
+
+### **Task Routes**
+| Method | Endpoint        | Description          |
+|--------|------------------|----------------------|
+| GET    | /tasks           | Get tasks based on role |
+| POST   | /tasks           | Create a new task |
+| PUT    | /tasks/:id       | Update task (owner only) |
+| DELETE | /tasks/:id       | Delete task (owner only) |
+
+---
+
+## 🎨 Frontend (React)
+
+### Required Pages  
+- Signup Page  
+- Login Page  
+- Dashboard Page  
+
+### UI Capabilities  
+- View tasks based on user role  
+- Add new tasks  
+- Update task progress  
+- Delete tasks  
+- Filter tasks (not-started / in-progress / completed)  
+- Show logged-in user’s role  
+- Students can view their assigned teacher ID  
+- JWT stored in **localStorage**  
+- Logout functionality  
+
+---
+
+## 🛠 Installation & Setup Guide  
+
+### ✔ Prerequisites  
+Install:  
 - Node.js  
-- Express  
-- Mongoose (MongoDB Atlas)  
-- JWT  
-- Bcrypt  
+- MongoDB  
+- Git  
+- VS Code  
 
 ---
 
-# 📁 Folder Structure
-
-\`\`\`
-edtech-task-manager/
-│
-├── client/          # React frontend (Vite)
-│   ├── src/
-│   │   ├── pages/   # Login, Signup, Dashboard
-│   │   ├── components/
-│   │   ├── contexts/AuthContext.jsx
-│   │   └── api.js
-│   └── package.json
-│
-├── server/          # Node.js + Express backend
-│   ├── models/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/
-│   ├── config/db.js
-│   └── server.js
-│
-├── README.md
-└── package.json
-\`\`\`
-
----
-
-# ⚙️ Setup Instructions
-
-## 1️⃣ Clone the repository
-\`\`\`
+## 📥 Clone Repository  
+```bash
 git clone https://github.com/kushalabhinith22/DIGIT-IT-/tree/master
-\`\`\`
-
-## 2️⃣ Setup backend (server)
-\`\`\`
+🔧 Backend Setup (server)
+bash
+Copy code
 cd server
 npm install
-\`\`\`
+Create .env file:
 
-Create `.env`:
-\`\`\`
-MONGO_URI=your_mongodb_atlas_uri
-JWT_SECRET=your_secret
-PORT=4000
-\`\`\`
+ini
+Copy code
+PORT=5000
+MONGO_URI=your_mongodb_url
+JWT_SECRET=your_jwt_secret
+Run server:
 
-Start server:
-\`\`\`
-npm run dev
-\`\`\`
-
-Server runs at:
-\`\`\`
-http://localhost:4000
-\`\`\`
-
----
-
-## 3️⃣ Setup frontend (client)
-\`\`\`
-cd ../client
+bash
+Copy code
+npm start
+💻 Frontend Setup (client)
+bash
+Copy code
+cd client
 npm install
-npm run dev
-\`\`\`
+npm start
+Front-end → http://localhost:3000
+Back-end → http://localhost:5000
 
-Runs at:
-\`\`\`
-http://localhost:5173
-\`\`\`
+🔍 Role Logic Explanation
+Student
+Can view only tasks they created
 
----
+Can update/delete only their own tasks
 
-# 🔐 Role Functionality & Permissions
+Teacher
+Can view:
 
-## 👨‍🏫 Teacher
-| Action | Allowed |
-|--------|---------|
-| See own tasks | ✅ |
-| See tasks of assigned students | ✅ |
-| Edit/delete student tasks | ❌ |
-| Edit/delete own tasks | ✅ |
-| Create tasks | ✅ |
+Tasks created by the teacher
 
-## 🧑‍🎓 Student
-| Action | Allowed |
-|--------|---------|
-| See own tasks | ✅ |
-| Create tasks | ✅ |
-| Edit/delete own tasks | ✅ |
-| See teacher tasks | ❌ |
-| See other students’ tasks | ❌ |
+Tasks of students whose teacherId = teacher._id
 
-This logic matches the requirements outlined in the assignment PDF.
+Sample Query Logic:
 
----
+javascript
+Copy code
+if (role === "student") {
+    // fetch only student tasks
+}
 
-# 🎥 Video Demo Checklist
+if (role === "teacher") {
+    // fetch tasks created by teacher
+    // fetch tasks of assigned students
+}
+🎥 Video Walkthrough Requirements
+Your video should demonstrate:
 
-Your demo video should show:
+Login as student → restricted tasks
 
-- Starting backend  
-- Starting frontend  
-- Teacher signup → teacherId shown  
-- Student signup using teacherId  
-- Student creates tasks  
-- Teacher logs in → sees student tasks  
-- Teacher cannot edit/delete student tasks  
-- Filters working  
-- Summary message  
+Login as teacher → teacher + student tasks
 
----
+Create, update, delete tasks
 
-# 🐞 Known Issues
-- No pagination for long task lists  
-- UI is minimal  
-- No dark mode  
-- No password reset functionality  
+Code walkthrough (middlewares, JWT authentication, role logic)
 
----
+⭐ Optional Bonus Features (If Implemented)
+Date filtering (overdue, this week, etc.)
 
-# 🚀 Suggestions for Improvement
-- Add assignment creation by teachers  
-- Add task submission & grading  
-- Add pagination and search  
-- Add role-based dashboard UI  
-- Add push notifications or email alerts  
+Pagination for teacher tasks
 
----
+Responsive UI (Tailwind / Bootstrap)
 
-# 🤖 AI Assistance Disclosure
-Parts of this project such as structuring, debugging, explanations, and documentation were assisted by AI tools.  
-All code has been reviewed and understood before submission.
+Deployment on Render
 
----
+🤖 AI Assistance Disclosure
+AI tools were used only for:
 
+README formatting
+
+Guidance and structure
+
+All implementation and debugging were done by me.
+
+🐞 Known Issues
+UI not fully responsive
+
+Pagination not added yet
+
+No global state management (Redux missing)
+
+🎯 Future Improvements
+Analytics dashboard
+
+Notification system
+
+Teacher assigning tasks to specific students
+
+Use HttpOnly cookies instead of localStorage
