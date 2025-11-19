@@ -1,147 +1,156 @@
-DIGIT-IT
+# DIGIT-IT
+### A Role-Based Task Management System for Students & Teachers  
+**Tech Stack:** React, Node.js, Express, MongoDB  
 
-A Role-Based Task Management System for Students & Teachers
-Tech Stack: React, Node.js, Express, MongoDB
+---
 
-🚀 Overview
-
-The EdTech Learning Task Manager is a full-stack web application designed to manage learning tasks between students and teachers with secure role-based access control.
+## 🚀 Overview  
+The **EdTech Learning Task Manager** is a full-stack web application that enables seamless task management between **students** and **teachers** using **secure role-based access control**.
 
 It supports:
 
-Students → Can manage only their own tasks
+- **Students** → Can manage only their own tasks  
+- **Teachers** → Can view tasks of assigned students and modify only tasks they personally created  
 
-Teachers → Can view tasks of assigned students and can modify tasks they personally created
+---
 
-🧩 Features
-🔐 Authentication & Authorization
+## 🧩 Features  
 
-Email + Password Signup/Login
+### 🔐 Authentication & Authorization  
+- Email + Password Signup/Login  
+- Password hashing using **bcrypt**  
+- JWT-based authentication with protected routes  
+- User roles stored as **student** or **teacher**
 
-Password Hashing using bcrypt
+---
 
-JWT Authentication with protected routes
+## 👩‍🏫 Role-Based Permissions  
 
-Role stored as student or teacher
+| Role     | Permissions |
+|----------|-------------|
+| **Student** | CRUD operations on their own tasks only |
+| **Teacher** | View tasks of assigned students + CRUD only on tasks created by the teacher |
 
-👩‍🏫 Role-Based Permissions
-Role	Permissions
-Student	CRUD only on their own tasks
-Teacher	View tasks of assigned students + CRUD only on tasks created by teacher
-🗃 Database Schema (MongoDB + Mongoose)
-Users Collection
-Field	Type	Description
-email	String	Unique email
-passwordHash	String	Hashed password
-role	String	student / teacher
-teacherId	ObjectId	Required for students
-Tasks Collection
-Field	Type	Description
-title	String	Task title
-description	String	Task details
-dueDate	Date	Optional due date
-progress	String	not-started / in-progress / completed
-userId	ObjectId	Creator of task
-createdAt	Date	Timestamp
-🛠 Backend API (Node + Express)
-Auth Routes
-Method	Endpoint	Description
-POST	/auth/signup	Register a new user
-POST	/auth/login	Login user & return JWT
-Task Routes
-Method	Endpoint	Description
-GET	/tasks	Get tasks based on role rules
-POST	/tasks	Create new task
-PUT	/tasks/:id	Update task (owner only)
-DELETE	/tasks/:id	Delete task (owner only)
-🎨 Frontend (React)
-Required Pages
+---
 
-Signup Page
+## 🗃 Database Schema (MongoDB + Mongoose)
 
-Login Page
+### **Users Collection**
+| Field        | Type      | Description |
+|--------------|-----------|-------------|
+| email        | String    | Unique email |
+| passwordHash | String    | Hashed password |
+| role         | String    | student / teacher |
+| teacherId    | ObjectId  | Required for students |
 
-Dashboard Page
+### **Tasks Collection**
+| Field       | Type      | Description |
+|-------------|-----------|-------------|
+| title       | String    | Task title |
+| description | String    | Task details |
+| dueDate     | Date      | Optional |
+| progress    | String    | not-started / in-progress / completed |
+| userId      | ObjectId  | Creator of the task |
+| createdAt   | Date      | Timestamp |
 
-UI Capabilities
+---
 
-View tasks based on role
+## 🛠 Backend API (Node + Express)
 
-Add new task
+### **Auth Routes**
+| Method | Endpoint       | Description           |
+|--------|----------------|-----------------------|
+| POST   | /auth/signup   | Register a new user   |
+| POST   | /auth/login    | Login user & return JWT |
 
-Update task progress
+### **Task Routes**
+| Method | Endpoint        | Description          |
+|--------|------------------|----------------------|
+| GET    | /tasks           | Get tasks based on role |
+| POST   | /tasks           | Create a new task |
+| PUT    | /tasks/:id       | Update task (owner only) |
+| DELETE | /tasks/:id       | Delete task (owner only) |
 
-Delete task
+---
 
-Filter tasks (not-started/in-progress/completed)
+## 🎨 Frontend (React)
 
-Show user role
+### Required Pages  
+- Signup Page  
+- Login Page  
+- Dashboard Page  
 
-Students see teacher ID
+### UI Capabilities  
+- View tasks based on user role  
+- Add new tasks  
+- Update task progress  
+- Delete tasks  
+- Filter tasks (not-started / in-progress / completed)  
+- Show logged-in user’s role  
+- Students can view their assigned teacher ID  
+- JWT stored in **localStorage**  
+- Logout functionality  
 
-Store JWT in localStorage
+---
 
-Logout button
+## 🛠 Installation & Setup Guide  
 
-🛠 Installation & Setup Guide
-✔ Prerequisites
+### ✔ Prerequisites  
+Install:  
+- Node.js  
+- MongoDB  
+- Git  
+- VS Code  
 
-Install the following:
+---
 
-Node.js
-
-MongoDB
-
-Git
-
-VS Code
-
-📥 Clone Repository
+## 📥 Clone Repository  
+```bash
 git clone https://github.com/your-username/edtech-task-manager.git
 cd edtech-task-manager
-
 🔧 Backend Setup (server)
-Install packages:
+bash
+Copy code
 cd server
 npm install
+Create .env file:
 
-Create .env:
+ini
+Copy code
 PORT=5000
 MONGO_URI=your_mongodb_url
 JWT_SECRET=your_jwt_secret
-
 Run server:
-npm start
 
+bash
+Copy code
+npm start
 💻 Frontend Setup (client)
-Install packages:
+bash
+Copy code
 cd client
 npm install
-
-Run frontend:
 npm start
-
-
-Frontend → http://localhost:3000
-
-Backend → http://localhost:5000
+Front-end → http://localhost:3000
+Back-end → http://localhost:5000
 
 🔍 Role Logic Explanation
-Student:
-
+Student
 Can view only tasks they created
 
 Can update/delete only their own tasks
 
-Teacher:
-
+Teacher
 Can view:
 
-Tasks created by teacher
+Tasks created by the teacher
 
 Tasks of students whose teacherId = teacher._id
 
-Query Logic Example:
+Sample Query Logic:
+
+javascript
+Copy code
 if (role === "student") {
     // fetch only student tasks
 }
@@ -150,31 +159,27 @@ if (role === "teacher") {
     // fetch tasks created by teacher
     // fetch tasks of assigned students
 }
-
 🎥 Video Walkthrough Requirements
-
-Your video should show:
+Your video should demonstrate:
 
 Login as student → restricted tasks
 
-Login as teacher → student + teacher tasks
+Login as teacher → teacher + student tasks
 
-CRUD (create, update, delete task)
+Create, update, delete tasks
 
-Code walkthrough (middlewares, role logic, JWT)
+Code walkthrough (middlewares, JWT authentication, role logic)
 
 ⭐ Optional Bonus Features (If Implemented)
+Date filtering (overdue, this week, etc.)
 
-Date filtering (overdue, this week)
-
-Pagination for teacher task list
+Pagination for teacher tasks
 
 Responsive UI (Tailwind / Bootstrap)
 
 Deployment on Render
 
 🤖 AI Assistance Disclosure
-
 AI tools were used only for:
 
 README formatting
@@ -184,19 +189,17 @@ Guidance and structure
 All implementation and debugging were done by me.
 
 🐞 Known Issues
-
 UI not fully responsive
 
 Pagination not added yet
 
-No Redux or global state management
+No global state management (Redux missing)
 
 🎯 Future Improvements
-
 Analytics dashboard
 
 Notification system
 
-Teacher assigns tasks to specific students
+Teacher assigning tasks to specific students
 
 Use HttpOnly cookies instead of localStorage
