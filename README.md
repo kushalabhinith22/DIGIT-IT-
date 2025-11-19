@@ -105,8 +105,7 @@ edtech-task-manager/
 
 ## 1️⃣ Clone the repository
 \`\`\`
-git clone https://github.com/Tarun2004e/edtech-task-manager
-cd edtech-task-manager
+git clone https://github.com/kushalabhinith22/DIGIT-IT-/tree/master
 \`\`\`
 
 ## 2️⃣ Setup backend (server)
