@@ -1,4 +1,4 @@
-# 🎓 EdTech Task Manager – Full Stack Assignment
+# 🎓 DIGIT - IT Task Manager – Full Stack Assignment
 
 A complete student-teacher task management system built using **Node.js**, **Express**, **MongoDB Atlas**, and **React (Vite)**.  
 This project implements authentication, student–teacher relationships, role-based permissions, and task management UI.
